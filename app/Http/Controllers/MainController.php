@@ -53,7 +53,7 @@ class MainController extends Controller
 
         //colocar jogo na sessão
         session()->put([
-            'quiz' = $quiz,
+            'quiz' => $quiz,
             'total_questions' => $total_questoes,
             'current_question' => 1,
             'correct_answers' => 0,
@@ -113,7 +113,7 @@ class MainController extends Controller
 
         //prepara as pessoas para mostrar na view
         $answers = $quiz[$current_question]['wrong_answers'];
-        $answers[] = $quiz[$current_question]['correct_answers'];
+        $answers[] = $quiz[$current_question]['corrent_answer'];
 
         shuffle($answers);
         return view('game')->with([

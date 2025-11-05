@@ -50,7 +50,17 @@ class MainController extends Controller
 
         //prepara as quiz
         $quiz = $this->prepareQuiz($total_questoes);
-        dd($quiz);
+
+        //colocar jogo na sessão
+        session()->put([
+            'quiz' = $quiz,
+            'total_questions' => $total_questoes,
+            'current_question' => 1,
+            'correct_answers' => 0,
+            'wrong_answers' => 0
+        ]);
+
+        return redirect()->route('game');
     }
 
     private function prepareQuiz($total_questoes)
@@ -93,5 +103,25 @@ class MainController extends Controller
         }
 
         return $questions;
+    }
+
+    public function game(): View
+    {
+        $quiz = session('quiz');
+        $total_questions = session('total_questions');
+        $current_question = session('current_question') - 1;
+
+        //prepara as pessoas para mostrar na view
+        $answers = $quiz[$current_question]['wrong_answers'];
+        $answers[] = $quiz[$current_question]['correct_answers'];
+
+        shuffle($answers);
+        return view('game')->with([
+            'country' => $quiz[$current_question]['country'],
+            'totalQuestions' => $total_questions,
+            'currentQuestions' => $current_question,
+            'answers' => $answers
+
+        ]);
     }
 }

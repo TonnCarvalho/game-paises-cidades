@@ -195,4 +195,24 @@ class MainController extends Controller
             return redirect()->route('showResults');
         }
     }
+    /**
+     *Mostra dados com número de perguntas certas e erradas.
+     *Mostra tela de resultados.
+     * @return void
+     */
+    public function showResults(): View
+    {
+        $total_questions = session('total_questions');
+        $correct_answers = session('correct_answers');
+        $wrong_answers = session('wrong_answers');
+        $score_final = round($correct_answers/$total_questions*100, 2);
+
+        $data = [
+            'total_questions' => $total_questions,
+            'correct_answers' => $correct_answers,
+            'wrong_answers' => $wrong_answers,
+            'score_final' => $score_final
+        ];
+        return view('show_results')->with($data);
+    }
 }

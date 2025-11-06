@@ -1,7 +1,18 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//start game
+Route::get('/',[MainController::class, 'startGame'])->name('startGame');
+Route::post('/',[MainController::class, 'prepareGame'])->name('prepareGame');
+
+//in game
+Route::get('/game', [MainController::class, 'game'])->name('game');
+Route::get('/answer/{answer}', [MainController::class, 'answer'])->name('answer');
+Route::get('/answer_result', [MainController::class, 'answer_result'])->name('answer_result');
+Route::get('/next-question', [MainController::class, 'nextQuestion'])->name('nextQuestion');
+Route::get('/final-results', [MainController::class, 'showResults'])->name('showResults');
+
+//reset game
+Route::get('/reset', [MainController::class, 'resetGame'])->name('resetGame');

@@ -31,6 +31,6 @@
 
     <!-- cancel game -->
     <div class="text-center mt-5">
-        <a href="#" class="btn btn-primary mt-3 px-5">VOLTAR AO INÍCIO</a>
+        <a href="{{ route('resetGame') }}" class="btn btn-primary mt-3 px-5">VOLTAR AO INÍCIO</a>
     </div>
 @endsection

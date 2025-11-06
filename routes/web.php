@@ -13,3 +13,6 @@ Route::get('/answer/{answer}', [MainController::class, 'answer'])->name('answer'
 Route::get('/answer_result', [MainController::class, 'answer_result'])->name('answer_result');
 Route::get('/next-question', [MainController::class, 'nextQuestion'])->name('nextQuestion');
 Route::get('/final-results', [MainController::class, 'showResults'])->name('showResults');
+
+//reset game
+Route::get('/reset', [MainController::class, 'resetGame'])->name('resetGame');

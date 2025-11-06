@@ -215,4 +215,15 @@ class MainController extends Controller
         ];
         return view('show_results')->with($data);
     }
+
+    /**
+     * Apaga a session
+     * Retorna pagina inicial.
+     */
+    public function resetGame()
+    {
+        session()->flush();
+
+        return redirect()->route('startGame');
+    }
 }

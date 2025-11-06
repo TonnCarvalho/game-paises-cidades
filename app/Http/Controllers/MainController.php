@@ -177,7 +177,9 @@ class MainController extends Controller
     }
 
     /**
-     * 
+     * verifica se perguntal atual é maior que pergunta total.
+     * atualiza o número da pergunta atual.
+     * se for menor, passa para proxima pergunta, se não vai para pagina de resultados.
      */
     public function nextQuestion()
     {
@@ -185,18 +187,12 @@ class MainController extends Controller
         $total_questions = session('total_questions'); //número total de perguntas
 
         if ($current_question <  $total_questions) {
-            $current_question++; //
+            $current_question++; //acrescenta +1 a pergunta atual.
             session()->put('current_question', $current_question);
 
             return redirect()->route('game');
         } else {
-            return redirect()->route('show_results');
+            return redirect()->route('showResults');
         }
-    }
-
-    public function showResults()
-    {
-        echo 'showResults';
-        dd(session()->all());
     }
 }

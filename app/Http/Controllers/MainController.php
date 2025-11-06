@@ -146,7 +146,7 @@ class MainController extends Controller
         $current_question = session('current_question') - 1; //número da pergunta atual
         $corrent_answer = $quiz[$current_question]['corrent_answer']; //pergunta atual
         $correct_answers = session('correct_answers'); //número de totais de respostas corretas
-        $wrong_answers = session('wrong_answers');//número de totais de respostas errada
+        $wrong_answers = session('wrong_answers'); //número de totais de respostas errada
 
         //verifica se a resposta é correta.
         if ($answer === $corrent_answer) {
@@ -174,5 +174,29 @@ class MainController extends Controller
         ];
 
         return view('answer_result')->with($data);
+    }
+
+    /**
+     * 
+     */
+    public function nextQuestion()
+    {
+        $current_question = session('current_question'); //número da pergunta atual
+        $total_questions = session('total_questions'); //número total de perguntas
+
+        if ($current_question <  $total_questions) {
+            $current_question++; //
+            session()->put('current_question', $current_question);
+
+            return redirect()->route('game');
+        } else {
+            return redirect()->route('show_results');
+        }
+    }
+
+    public function showResults()
+    {
+        echo 'showResults';
+        dd(session()->all());
     }
 }

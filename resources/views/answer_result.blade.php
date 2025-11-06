@@ -30,6 +30,6 @@ if($choice_answer === $corrent_answer) {
 
     <!-- cancel game -->
     <div class="text-center mt-5">
-        <a href="#" class="btn btn-primary mt-3 px-5">AVANÇAR</a>
+        <a href="{{ route('nextQuestion') }}" class="btn btn-primary mt-3 px-5">AVANÇAR</a>
     </div>
 @endsection

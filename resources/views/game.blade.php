@@ -12,12 +12,13 @@
         </div>
 
         <div class="row">
-
             @foreach ($answers as $answer)
                 <div class="col-6 text-center">
-                    <p class="response-option">
-                        {{ $answer }}
-                    </p>
+                    <a href="{{ route('answer', Crypt::encryptString($answer)) }}" class="text-decoration-none">
+                        <p class="response-option">
+                            {{ $answer }}
+                        </p>
+                    </a>
                 </div>
             @endforeach
         </div>

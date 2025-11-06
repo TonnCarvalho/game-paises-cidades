@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -123,5 +124,55 @@ class MainController extends Controller
             'answers' => $answers
 
         ]);
+    }
+
+    /**
+     *desencripta resposta, verifica a resposta, atualiza dados da session, mostra dados da pergunta/resposta
+     * @param [string] $enc_answer
+     * @return void
+     */
+    public function answer($enc_answer)
+    {
+        //tratamento para ver se a resposta é encriptada.
+        try {
+            //realoiza a desencriptação
+            $answer = Crypt::decryptString($enc_answer);
+        } catch (\Exception $e) {
+            return redirect()->route('game');
+        }
+
+        //game loop
+        $quiz = session('quiz'); //perguntas
+        $current_question = session('current_question') - 1; //número da pergunta atual
+        $corrent_answer = $quiz[$current_question]['corrent_answer']; //pergunta atual
+        $correct_answers = session('correct_answers'); //número de totais de respostas corretas
+        $wrong_answers = session('wrong_answers');//número de totais de respostas errada
+
+        //verifica se a resposta é correta.
+        if ($answer === $corrent_answer) {
+            $correct_answers++; //acrescenta +1 a número de resposta correta
+            $quiz[$corrent_answer]['correct'] = true; //marca a pergunta como correta
+        } else {
+            $wrong_answers++; //acrescenta +1 a número de resposta errada
+            $quiz[$corrent_answer]['correct'] = false;  //marca a resposta como errada
+        }
+
+        //atualiza a sessão
+        session()->put([
+            'quiz' => $quiz,
+            'correct_answers' => $correct_answers,
+            'wrong_answers' => $wrong_answers
+        ]);
+
+        //dados enviado para a view
+        $data = [
+            'country' => $quiz[$current_question]['country'],
+            'corrent_answer' => $corrent_answer,
+            'choice_answer' => $answer,
+            'current_question' => $current_question,
+            'totalQuestion' => session('total_questions')
+        ];
+
+        return view('answer_result')->with($data);
     }
 }
